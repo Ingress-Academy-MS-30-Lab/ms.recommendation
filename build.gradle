@@ -26,14 +26,44 @@ dependencies {
     compileOnly "org.projectlombok:lombok"
     annotationProcessor "org.projectlombok:lombok"
 
+    //postgresql
+    runtimeOnly 'org.postgresql:postgresql'
+
+    //spring data jpa
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
     //swagger
     implementation "org.springdoc:springdoc-openapi-ui:$openApiVersion"
+
+    //aop
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+
+    //amqp
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
+
+    //feign-client
+    implementation "org.springframework.cloud:spring-cloud-starter-openfeign"
+
+    //redis-cache
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+    implementation "org.redisson:redisson-spring-boot-starter:$redis"
+
+    //shedlock
+    implementation "net.javacrumbs.shedlock:shedlock-spring:$shedlock"
+    implementation "net.javacrumbs.shedlock:shedlock-provider-jdbc-template:$shedlock"
 
     //testing
     testImplementation "org.apache.groovy:groovy:$groovyVersion"
     testImplementation "io.github.benas:random-beans:$randomBeansVersion"
     testImplementation "org.spockframework:spock-spring:$spockSpringVersion"
     testImplementation "org.springframework.boot:spring-boot-starter-test"
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
 }
 
 test {
