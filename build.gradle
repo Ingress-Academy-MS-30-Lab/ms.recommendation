@@ -45,9 +45,7 @@ dependencies {
     implementation "org.springframework.cloud:spring-cloud-starter-openfeign"
 
     //redis-cache
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-    implementation 'org.springframework.boot:spring-boot-starter-cache'
-    implementation "org.redisson:redisson-spring-boot-starter:$redis"
+    implementation "org.redisson:redisson:${redisVersion}"
 
     //shedlock
     implementation "net.javacrumbs.shedlock:shedlock-spring:$shedlock"

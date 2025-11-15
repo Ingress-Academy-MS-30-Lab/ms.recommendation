@@ -1,5 +1,6 @@
-package az.ingress.model.events;
+package az.ingress.model.queue;
 
+import az.ingress.model.enums.RecommendationSourceType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,8 +10,9 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CartEvent {
+public class RecommendationQueueDto {
     private Long userId;
     private String category;
+    private RecommendationSourceType sourceType;
     private LocalDateTime createdAt;
 }

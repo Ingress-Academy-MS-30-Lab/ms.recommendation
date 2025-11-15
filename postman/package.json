@@ -1,0 +1,164 @@
+{
+  "info": {
+    "_postman_id": "316c0a9d-4be4-468b-b048-f8b5ba7dc25d",
+    "name": "ms.recommendation",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "42451635"
+  },
+  "item": [
+    {
+      "name": "v1",
+      "item": [
+        {
+          "name": "recommendations",
+          "item": [
+            {
+              "name": "get Recommendation Products",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "User-Id",
+                    "value": "2354"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/recommendations",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "recommendations"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "OK",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "User-Id",
+                        "value": "2354"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/recommendations",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "recommendations"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "*/*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "[\n  {\n    \"productId\": 3092,\n    \"variantId\": 4051,\n    \"categoryId\": 2332,\n    \"categoryName\": \"string\",\n    \"imageUrl\": \"string\",\n    \"title\": \"string\",\n    \"description\": \"string\",\n    \"price\": 9939.750273337904,\n    \"salePrice\": 588.1246069385004,\n    \"onSale\": false,\n    \"rating\": 8649.294228814677,\n    \"reviewCount\": 2689\n  },\n  {\n    \"productId\": 4457,\n    \"variantId\": 7294,\n    \"categoryId\": 1541,\n    \"categoryName\": \"string\",\n    \"imageUrl\": \"string\",\n    \"title\": \"string\",\n    \"description\": \"string\",\n    \"price\": 3289.7806359846027,\n    \"salePrice\": 489.99456798592075,\n    \"onSale\": true,\n    \"rating\": 1951.4756665652433,\n    \"reviewCount\": 6891\n  }\n]"
+                },
+                {
+                  "name": "Method Not Allowed",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "User-Id",
+                        "value": "2354"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/recommendations",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "recommendations"
+                      ]
+                    }
+                  },
+                  "status": "Method Not Allowed",
+                  "code": 405,
+                  "_postman_previewlanguage": "text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "*/*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"message\": \"string\"\n}"
+                },
+                {
+                  "name": "Internal Server Error",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "User-Id",
+                        "value": "2354"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/recommendations",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "recommendations"
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "*/*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"message\": \"string\"\n}"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    }
+  ]
+}

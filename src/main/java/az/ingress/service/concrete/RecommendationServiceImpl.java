@@ -1,9 +1,9 @@
 package az.ingress.service.concrete;
 
-import az.ingress.aop.ToLog;
+import az.ingress.aop.Log;
 import az.ingress.client.ProductClient;
 import az.ingress.dao.repository.RecommendationRepository;
-import az.ingress.model.response.ProductResponse;
+import az.ingress.model.client.response.ProductResponseDto;
 import az.ingress.service.RecommendationCacheService;
 import az.ingress.service.abstraction.RecommendationService;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +13,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Log
 public class RecommendationServiceImpl implements RecommendationService {
 
     private final RecommendationRepository recommendationRepository;
@@ -23,8 +24,7 @@ public class RecommendationServiceImpl implements RecommendationService {
 
 
     @Override
-    @ToLog
-    public List<ProductResponse> getProducts(Long userId) {
+    public List<ProductResponseDto> getRecommendationProducts(Long userId) {
         var checkUserIdIfExist = recommendationRepository.existsByUserId(userId);
         if (checkUserIdIfExist) {
             var category = recommendationRepository.findCategoryByUserId(userId);
@@ -45,7 +45,6 @@ public class RecommendationServiceImpl implements RecommendationService {
     }
 
     @Override
-    @ToLog
     public void refreshRecommendationProducts() {
         var allDistinctCategory = recommendationRepository.findAllDistinctCategory();
 

@@ -1,9 +1,11 @@
 package az.ingress.service;
 
-import az.ingress.aop.ToLog;
+import az.ingress.aop.Log;
+import az.ingress.dao.entity.RecommendationEntity;
 import az.ingress.dao.repository.RecommendationRepository;
 import az.ingress.model.events.CartEvent;
 import az.ingress.model.events.OrderEvent;
+import az.ingress.model.queue.RecommendationQueueDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,38 +15,21 @@ import static az.ingress.model.mapper.RecommendationMapper.RECOMMENDATION_MAPPER
 
 @Service
 @RequiredArgsConstructor
+@Log
 public class QueueService {
 
     private final RecommendationRepository recommendationRepository;
 
-    @ToLog
-    public void processCartEvent(CartEvent cartEvent) {
-        var entity = recommendationRepository.findByUserId(cartEvent.getUserId());
-
+    public void queueProcess(RecommendationQueueDto queueDto) {
+        var entity = recommendationRepository.findByUserId(queueDto.getUserId());
         if (entity != null) {
-            if (cartEvent.getCreatedAt().isAfter(entity.getUpdatedAt())) {
-                entity.setSourceType(CART);
-                entity.setCategory(cartEvent.getCategory());
+            if (queueDto.getCreatedAt().isAfter(entity.getUpdatedAt())) {
+                entity.setSourceType(queueDto.getSourceType());
+                entity.setCategory(queueDto.getCategory());
                 recommendationRepository.save(entity);
             }
-        }else {
-            var newEntity = RECOMMENDATION_MAPPER.buildEntity(cartEvent);
-            recommendationRepository.save(newEntity);
-        }
-    }
-
-    @ToLog
-    public void processOrderEvent(OrderEvent orderEvent) {
-        var entity = recommendationRepository.findByUserId(orderEvent.getUserId());
-
-        if (entity != null) {
-            if (orderEvent.getCreatedAt().isAfter(entity.getUpdatedAt())) {
-                entity.setSourceType(ORDER);
-                entity.setCategory(orderEvent.getCategory());
-                recommendationRepository.save(entity);
-            }
-        }else {
-            var newEntity = RECOMMENDATION_MAPPER.buildEntity(orderEvent);
+        } else {
+            var newEntity = RECOMMENDATION_MAPPER.buildEntity(queueDto);
             recommendationRepository.save(newEntity);
         }
     }

@@ -7,9 +7,9 @@ import static org.springframework.boot.SpringApplication.run;
 
 @EnableFeignClients
 @SpringBootApplication
-public class MsRecommendationApplication {
+public class RecommendationApplication {
 
     public static void main(String[] args) {
-        run(MsRecommendationApplication.class, args);
+        run(RecommendationApplication.class, args);
     }
 }

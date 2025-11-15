@@ -29,13 +29,6 @@ public class ErrorHandler {
         return new ErrorResponse(ex.getMessage());
     }
 
-    @ExceptionHandler(QueueException.class)
-    @ResponseStatus(INTERNAL_SERVER_ERROR)
-    public ErrorResponse handle(QueueException ex) {
-        log.error("QueueException: ", ex);
-        return new ErrorResponse(ex.getMessage());
-    }
-
     @ExceptionHandler(CustomFeignException.class)
     public ResponseEntity<ErrorResponse> handle(CustomFeignException ex) {
         log.error("CustomFeignException: ", ex);

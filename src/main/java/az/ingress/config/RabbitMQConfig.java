@@ -12,116 +12,57 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
 
-    //cart
-    private final String publisherCartQ;
-    private final String publisherCartDLQ;
-    private final String publisherCartQExchange;
-    private final String publisherCartDLQExchange;
-    private final String publisherCartQKey;
-    private final String publisherCartDLQKey;
+    private final String publisherRecommendationQ;
+    private final String publisherRecommendationDLQ;
+    private final String publisherRecommendationQExchange;
+    private final String publisherRecommendationDLQExchange;
+    private final String publisherRecommendationQKey;
+    private final String publisherRecommendationDLQKey;
 
-    //order
-    private final String publisherOrderQ;
-    private final String publisherOrderDLQ;
-    private final String publisherOrderQExchange;
-    private final String publisherOrderDLQExchange;
-    private final String publisherOrderQKey;
-    private final String publisherOrderDLQKey;
-
-    public RabbitMQConfig(@Value("${rabbitmq.publisher-service.cart.queue}") String publisherCartQ,
-                          @Value("${rabbitmq.publisher-service.cart.dlq}") String publisherCartDLQ,
-                          @Value("${rabbitmq.publisher-service.order.queue}") String publisherOrderQ,
-                          @Value("${rabbitmq.publisher-service.order.dlq}") String publisherOrderDLQ) {
-        this.publisherCartQ = publisherCartQ;
-        this.publisherCartDLQ = publisherCartDLQ;
-        this.publisherCartQExchange = publisherCartQ + "_EXCHANGE";
-        this.publisherCartDLQExchange = publisherCartDLQ + "_EXCHANGE";
-        this.publisherCartQKey = publisherCartQ + "_KEY";
-        this.publisherCartDLQKey = publisherCartDLQ + "_KEY";
-
-        this.publisherOrderQ = publisherOrderQ;
-        this.publisherOrderDLQ = publisherOrderDLQ;
-        this.publisherOrderQExchange = publisherOrderQ + "_EXCHANGE";
-        this.publisherOrderDLQExchange = publisherOrderDLQ + "_EXCHANGE";
-        this.publisherOrderQKey = publisherOrderQ + "_KEY";
-        this.publisherOrderDLQKey = publisherOrderDLQ + "_KEY";
-    }
-
-
-    //cart
-    @Bean
-    DirectExchange publisherCartQExchange() {
-        return new DirectExchange(publisherCartQExchange);
+    public RabbitMQConfig(@Value("${rabbitmq.publisher-service.queue}") String publisherRecommendationQ,
+                          @Value("${rabbitmq.publisher-service.dlq}") String publisherRecommendationDLQ) {
+        this.publisherRecommendationQ = publisherRecommendationQ;
+        this.publisherRecommendationDLQ = publisherRecommendationDLQ;
+        this.publisherRecommendationQExchange = publisherRecommendationQ + "_EXCHANGE";
+        this.publisherRecommendationDLQExchange = publisherRecommendationDLQ + "_EXCHANGE";
+        this.publisherRecommendationQKey = publisherRecommendationQ + "_KEY";
+        this.publisherRecommendationDLQKey = publisherRecommendationDLQ + "_KEY";
     }
 
     @Bean
-    DirectExchange publisherCartDLQExchange() {
-        return new DirectExchange(publisherCartDLQExchange);
+    DirectExchange publisherRecommendationQExchange() {
+        return new DirectExchange(publisherRecommendationQExchange);
     }
 
     @Bean
-    Queue publisherCartDLQ() {
-        return QueueBuilder.durable(publisherCartDLQ).build();
+    DirectExchange publisherRecommendationDLQExchange() {
+        return new DirectExchange(publisherRecommendationDLQExchange);
     }
 
     @Bean
-    Queue publisherCartQ() {
-        return QueueBuilder.durable(publisherCartQ)
-                .withArgument("x-dead-letter-exchange", publisherCartDLQExchange)
-                .withArgument("x-dead-letter-routing-key", publisherCartDLQKey)
+    Queue publisherRecommendationDLQ() {
+        return QueueBuilder.durable(publisherRecommendationDLQ).build();
+    }
+
+    @Bean
+    Queue publisherRecommendationQ() {
+        return QueueBuilder.durable(publisherRecommendationQ)
+                .withArgument("x-dead-letter-exchange", publisherRecommendationDLQExchange)
+                .withArgument("x-dead-letter-routing-key", publisherRecommendationDLQKey)
                 .build();
     }
 
     @Bean
-    Binding publisherCartDLQBinding() {
-        return BindingBuilder.bind(publisherCartDLQ())
-                .to(publisherCartDLQExchange())
-                .with(publisherCartDLQKey);
+    Binding publisherRecommendationDLQBinding() {
+        return BindingBuilder.bind(publisherRecommendationDLQ())
+                .to(publisherRecommendationDLQExchange())
+                .with(publisherRecommendationDLQKey);
     }
 
     @Bean
     Binding publisherCartQBinding() {
-        return BindingBuilder.bind(publisherCartQ())
-                .to(publisherCartQExchange())
-                .with(publisherCartQKey);
-    }
-
-
-    //order
-    @Bean
-    DirectExchange publisherOrderQExchange() {
-        return new DirectExchange(publisherOrderQExchange);
-    }
-
-    @Bean
-    DirectExchange publisherOrderDLQExchange() {
-        return new DirectExchange(publisherOrderDLQExchange);
-    }
-
-    @Bean
-    Queue publisherOrderDLQ() {
-        return QueueBuilder.durable(publisherOrderDLQ).build();
-    }
-
-    @Bean
-    Queue publisherOrderQ() {
-        return QueueBuilder.durable(publisherOrderQ)
-                .withArgument("x-dead-letter-exchange", publisherOrderDLQExchange)
-                .withArgument("x-dead-letter-routing-key", publisherOrderDLQKey)
-                .build();
-    }
-
-    @Bean
-    Binding publisherOrderDLQBinding() {
-        return BindingBuilder.bind(publisherOrderDLQ())
-                .to(publisherOrderDLQExchange())
-                .with(publisherOrderDLQKey);
-    }
-
-    @Bean
-    Binding publisherOrderQBinding() {
-        return BindingBuilder.bind(publisherOrderQ())
-                .to(publisherOrderQExchange())
-                .with(publisherOrderQKey);
+        return BindingBuilder.bind(publisherRecommendationQ())
+                .to(publisherRecommendationQExchange())
+                .with(publisherRecommendationQKey);
     }
 }

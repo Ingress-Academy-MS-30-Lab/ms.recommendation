@@ -1,13 +1,15 @@
 package az.ingress.client;
 
 import az.ingress.client.decoder.CustomErrorDecoder;
-import az.ingress.model.response.ProductResponse;
+import az.ingress.model.client.response.ProductResponseDto;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
+@Profile("!local")
 @FeignClient(
         name = "ms.product",
         path = "internal",
@@ -17,8 +19,8 @@ import java.util.List;
 public interface ProductClient {
 
     @GetMapping("/v1/products/category")
-    List<ProductResponse> getTopProductsByCategory(@RequestParam String category);
+    List<ProductResponseDto> getTopProductsByCategory(@RequestParam String category);
 
     @GetMapping("/v1/products/most-rated-products")
-    List<ProductResponse> getMostRatedProducts();
+    List<ProductResponseDto> getMostRatedProducts();
 }

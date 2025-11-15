@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 import static javax.persistence.EnumType.STRING;
+import static javax.persistence.GenerationType.IDENTITY;
 
 @Getter
 @Setter
@@ -31,7 +32,7 @@ import static javax.persistence.EnumType.STRING;
 public class RecommendationEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     private Long userId;

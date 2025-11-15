@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: "ms.recommendation"
+  profiles:
+    active: local
 
   datasource:
     url: jdbc:postgresql://${DB_CONNECTION_IP:localhost}:${DB_CONNECTION_PORT:5432}/${DB_NAME:recommendation}
@@ -38,12 +40,8 @@ spring:
 
 rabbitmq:
   publisher-service:
-    cart:
-      queue: CART_QUEUE
-      dlq: CART_DLQ
-    order:
-      queue: ORDER_QUEUE
-      dlq: ORDER_DLQ
+    queue: RECOMMENDATION_Q
+    dlq: RECOMMENDATION_DLQ
 
 
 client:

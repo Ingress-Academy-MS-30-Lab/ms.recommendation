@@ -7,20 +7,18 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.Response;
 import feign.codec.ErrorDecoder;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import static az.ingress.client.decoder.JsonNodeFieldName.MESSAGE;
 import static az.ingress.exception.ErrorMessage.CLIENT_ERROR;
 
 @Component
+@RequiredArgsConstructor
 public class CustomErrorDecoder implements ErrorDecoder {
 
     private final ApplicationLogger log = ApplicationLogger.getLogger(CustomErrorDecoder.class);
     private final ObjectMapper objectMapper;
-
-    public CustomErrorDecoder(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
 
     @Override
     public Exception decode(String s, Response response) {
