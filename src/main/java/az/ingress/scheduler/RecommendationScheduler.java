@@ -16,6 +16,6 @@ public class RecommendationScheduler {
                    lockAtLeastFor = "PT5M",
                    lockAtMostFor = "PT10M")
     public void refreshRecommendationProducts() {
-        recommendationService.refreshRecommendationProducts();
+//        recommendationService.refreshRecommendationProducts();
     }
 }

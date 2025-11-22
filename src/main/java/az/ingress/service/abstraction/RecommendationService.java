@@ -8,5 +8,5 @@ public interface RecommendationService {
 
     List<ProductResponseDto> getRecommendationProducts(Long userId);
 
-    void refreshRecommendationProducts();
+//    void refreshRecommendationProducts();
 }

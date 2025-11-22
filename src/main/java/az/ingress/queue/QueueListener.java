@@ -23,7 +23,7 @@ public class QueueListener {
     public void consume(String message) {
         try {
             var queueDto = objectMapper.readValue(message, RecommendationQueueDto.class);
-            queueService.queueProcess(queueDto);
+            queueService.processQueueEvent(queueDto);
         } catch (JsonProcessingException ex) {
             log.error("ActionLog.consume.error.message invalid format - {}", ex.getMessage());
         } catch (Exception ex) {

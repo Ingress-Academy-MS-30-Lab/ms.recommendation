@@ -1,14 +1,18 @@
 package az.ingress.dao.entity;
 
 import az.ingress.model.enums.RecommendationSourceType;
+import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -27,20 +31,17 @@ import static javax.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "recommendations")
+@Table(name = "category_based_recommendations")
 @Builder
+@TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 public class RecommendationEntity {
 
     @Id
-    @GeneratedValue(strategy = IDENTITY)
-    private Long id;
-
     private Long userId;
 
-    private String category;
-
-    @Enumerated(STRING)
-    private RecommendationSourceType sourceType;
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb")
+    private String categoryWeights;
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
@@ -50,15 +51,15 @@ public class RecommendationEntity {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        RecommendationEntity that = (RecommendationEntity) o;
-        return Objects.equals(id, that.id);
+        if (!(o instanceof RecommendationEntity that)) return false;
+        return Objects.equals(userId, that.userId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hashCode(userId);
     }
+
 }
 
 

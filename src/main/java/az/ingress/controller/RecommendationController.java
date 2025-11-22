@@ -15,10 +15,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RecommendationController {
 
+    private static final String USER_ID = "User-Id";
     private final RecommendationService recommendationService;
 
     @GetMapping
-    public List<ProductResponseDto> getRecommendationProducts(@RequestHeader("User-Id") Long userId) {
+    public List<ProductResponseDto> getRecommendationProducts(@RequestHeader(USER_ID) Long userId) {
         return recommendationService.getRecommendationProducts(userId);
     }
 }

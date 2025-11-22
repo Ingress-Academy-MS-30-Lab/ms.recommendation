@@ -32,6 +32,8 @@ dependencies {
     //spring data jpa
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
+    implementation "com.vladmihalcea:hibernate-types-52:${hibernateTypesVersion}"
+
     //swagger
     implementation "org.springdoc:springdoc-openapi-ui:$openApiVersion"
 

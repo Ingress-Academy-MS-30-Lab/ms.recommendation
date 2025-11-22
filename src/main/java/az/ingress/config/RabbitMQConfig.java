@@ -12,57 +12,57 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
 
-    private final String publisherRecommendationQ;
-    private final String publisherRecommendationDLQ;
-    private final String publisherRecommendationQExchange;
-    private final String publisherRecommendationDLQExchange;
-    private final String publisherRecommendationQKey;
-    private final String publisherRecommendationDLQKey;
+    private final String recommendationQ;
+    private final String recommendationDLQ;
+    private final String recommendationQExchange;
+    private final String recommendationDLQExchange;
+    private final String recommendationQKey;
+    private final String recommendationDLQKey;
 
-    public RabbitMQConfig(@Value("${rabbitmq.publisher-service.queue}") String publisherRecommendationQ,
-                          @Value("${rabbitmq.publisher-service.dlq}") String publisherRecommendationDLQ) {
-        this.publisherRecommendationQ = publisherRecommendationQ;
-        this.publisherRecommendationDLQ = publisherRecommendationDLQ;
-        this.publisherRecommendationQExchange = publisherRecommendationQ + "_EXCHANGE";
-        this.publisherRecommendationDLQExchange = publisherRecommendationDLQ + "_EXCHANGE";
-        this.publisherRecommendationQKey = publisherRecommendationQ + "_KEY";
-        this.publisherRecommendationDLQKey = publisherRecommendationDLQ + "_KEY";
+    public RabbitMQConfig(@Value("${rabbitmq.publisher-service.queue}") String recommendationQ,
+                          @Value("${rabbitmq.publisher-service.dlq}") String recommendationDLQ) {
+        this.recommendationQ = recommendationQ;
+        this.recommendationDLQ = recommendationDLQ;
+        this.recommendationQExchange = recommendationQ + "_EXCHANGE";
+        this.recommendationDLQExchange = recommendationDLQ + "_EXCHANGE";
+        this.recommendationQKey = recommendationQ + "_KEY";
+        this.recommendationDLQKey = recommendationDLQ + "_KEY";
     }
 
     @Bean
-    DirectExchange publisherRecommendationQExchange() {
-        return new DirectExchange(publisherRecommendationQExchange);
+    DirectExchange recommendationQExchange() {
+        return new DirectExchange(recommendationQExchange);
     }
 
     @Bean
-    DirectExchange publisherRecommendationDLQExchange() {
-        return new DirectExchange(publisherRecommendationDLQExchange);
+    DirectExchange recommendationDLQExchange() {
+        return new DirectExchange(recommendationDLQExchange);
     }
 
     @Bean
-    Queue publisherRecommendationDLQ() {
-        return QueueBuilder.durable(publisherRecommendationDLQ).build();
+    Queue recommendationDLQ() {
+        return QueueBuilder.durable(recommendationDLQ).build();
     }
 
     @Bean
-    Queue publisherRecommendationQ() {
-        return QueueBuilder.durable(publisherRecommendationQ)
-                .withArgument("x-dead-letter-exchange", publisherRecommendationDLQExchange)
-                .withArgument("x-dead-letter-routing-key", publisherRecommendationDLQKey)
+    Queue recommendationQ() {
+        return QueueBuilder.durable(recommendationQ)
+                .withArgument("x-dead-letter-exchange", recommendationDLQExchange)
+                .withArgument("x-dead-letter-routing-key", recommendationDLQKey)
                 .build();
     }
 
     @Bean
-    Binding publisherRecommendationDLQBinding() {
-        return BindingBuilder.bind(publisherRecommendationDLQ())
-                .to(publisherRecommendationDLQExchange())
-                .with(publisherRecommendationDLQKey);
+    Binding recommendationDLQBinding() {
+        return BindingBuilder.bind(recommendationDLQ())
+                .to(recommendationDLQExchange())
+                .with(recommendationDLQKey);
     }
 
     @Bean
-    Binding publisherCartQBinding() {
-        return BindingBuilder.bind(publisherRecommendationQ())
-                .to(publisherRecommendationQExchange())
-                .with(publisherRecommendationQKey);
+    Binding recommendationQBinding() {
+        return BindingBuilder.bind(recommendationQ())
+                .to(recommendationQExchange())
+                .with(recommendationQKey);
     }
 }

@@ -5,18 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
-import java.util.List;
-import java.util.Optional;
-
 public interface RecommendationRepository extends CrudRepository<RecommendationEntity, Long> {
-
-    RecommendationEntity findByUserId(Long userId);
-
-    boolean existsByUserId(Long userId);
-
-    @Query("SELECT r.category FROM RecommendationEntity r WHERE r.userId = :userId")
-    String findCategoryByUserId(Long userId);
-
-    @Query("SELECT DISTINCT r.category FROM RecommendationEntity r")
-    List<String> findAllDistinctCategory();
 }
