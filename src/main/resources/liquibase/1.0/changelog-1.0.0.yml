@@ -7,14 +7,25 @@ databaseChangeLog:
             tableName: category_based_recommendations
             columns:
               - column:
-                  name: user_id
+                  name: id
                   type: BIGINT
+                  autoIncrement: true
                   constraints:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: category
+                  name: user_id
                   type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: category_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: weight
+                  type: DOUBLE PRECISION
                   constraints:
                     nullable: false
               - column:

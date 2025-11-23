@@ -3,33 +3,39 @@ package az.ingress.service.concrete;
 
 import az.ingress.aop.Log;
 import az.ingress.client.ProductClient;
-import az.ingress.dao.repository.RecommendationRepository;
+import az.ingress.dao.entity.CategoryBasedRecommendationEntity;
+import az.ingress.dao.repository.CategoryBasedRecommendationRepository;
 import az.ingress.model.client.response.ProductResponseDto;
 import az.ingress.service.RecommendationCacheService;
-import az.ingress.service.abstraction.RecommendationService;
+import az.ingress.service.abstraction.CategoryBasedRecommendationService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static java.util.Collections.emptyMap;
+import static java.util.Comparator.comparing;
 
 @Service
 @RequiredArgsConstructor
 @Log
-public class RecommendationServiceImpl implements RecommendationService {
+public class CategoryBasedRecommendationServiceImpl implements CategoryBasedRecommendationService {
 
-    private final RecommendationRepository recommendationRepository;
+    private final CategoryBasedRecommendationRepository categoryBasedRecommendationRepository;
     private final ProductClient productClient;
     private final RecommendationCacheService recommendationCacheService;
 
 
     @Override
     public List<ProductResponseDto> getRecommendationProducts(Long userId) {
-        var entity = recommendationRepository.findById(userId).orElse(null);
+
+        var entity = categoryBasedRecommendationRepository.findAllByUserId(userId);
+
         if (entity == null) {
             var cachedTopRatedProducts = recommendationCacheService.getCachedRecommendationTopRatedProducts();
             if (cachedTopRatedProducts != null) return cachedTopRatedProducts;
@@ -38,11 +44,10 @@ public class RecommendationServiceImpl implements RecommendationService {
             recommendationCacheService.save(topRatedProducts);
             return topRatedProducts;
         }
-        Map<String, Double> weights = parseJson(entity.getCategoryWeights());
-        String bestCategory = weights.entrySet()
-                .stream()
-                .max(Map.Entry.comparingByValue())
-                .map(Map.Entry::getKey)
+
+        var bestCategory = entity.stream()
+                .max(comparing(CategoryBasedRecommendationEntity::getWeight))
+                .map(CategoryBasedRecommendationEntity::getCategoryId)
                 .orElse(null);
 
         if (bestCategory == null) return productClient.getMostRatedProducts();
@@ -55,25 +60,13 @@ public class RecommendationServiceImpl implements RecommendationService {
         return products;
     }
 
-//    @Override
-//    public void refreshRecommendationProducts() {
-//        var allDistinctCategory = recommendationRepository.findAllDistinctCategory();
-//
-//        for(var category : allDistinctCategory) {
-//            var recommendationProductsByCategory = productClient.getTopProductsByCategory(category);
-//            recommendationCacheService.save(category, recommendationProductsByCategory);
-//        }
-//
-//        var recommendationTopRatedProducts = productClient.getMostRatedProducts();
-//        recommendationCacheService.save(recommendationTopRatedProducts);
-//    }
+    @Override
+    public Optional<CategoryBasedRecommendationEntity> findByUserIdAndCategoryId(Long userId, Long categoryId) {
+        return categoryBasedRecommendationRepository.findByUserIdAndCategoryId(userId, categoryId);
+    }
 
-    private Map<String, Double> parseJson(String json) {
-        try {
-            return new ObjectMapper().readValue(json, new TypeReference<>() {
-            });
-        } catch (Exception e) {
-            return emptyMap();
-        }
+    @Override
+    public void save(CategoryBasedRecommendationEntity categoryBasedRecommendationEntity) {
+        categoryBasedRecommendationRepository.save(categoryBasedRecommendationEntity);
     }
 }

@@ -10,13 +10,6 @@ import static java.time.LocalDateTime.now;
 
 public class RecommendationWeights {
 
-    public static double getBaseWeight(RecommendationSourceType type) {
-        return switch (type) {
-            case ORDER -> 5.0;
-            case CART -> 3.0;
-        };
-    }
-
     public static double applyDecay(double weight, LocalDateTime eventTime) {
         var days = between(eventTime, now()).toDays();
         var decayFactor = pow(0.95, days);

@@ -21,9 +21,18 @@ public class AspectLogging {
     @Around(value = "@within(az.ingress.aop.Log)")
     public Object logging(ProceedingJoinPoint joinPoint) {
         var methodName = joinPoint.getSignature().getName();
-        log.info("ActionLog." + methodName + ".start - {}", joinPoint.getArgs());
+        var args = joinPoint.getArgs();
+        logStart(methodName, args);
         var result = joinPoint.proceed();
-        log.info("ActionLog." + methodName + ".end.success - {}", joinPoint.getArgs());
+        logEnd(methodName, args);
         return result;
+    }
+
+    private void logStart(String methodName, Object[] args) {
+        log.info("ActionLog." + methodName + ".start - {}", args);
+    }
+
+    private void logEnd(String methodName, Object[] args) {
+        log.info("ActionLog." + methodName + ".end.success - {}", args);
     }
 }

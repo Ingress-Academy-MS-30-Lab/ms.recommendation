@@ -4,7 +4,7 @@ databaseChangeLog:
       author: muradbakhishli
       changes:
         - createTable:
-            tableName: category_based_recommendations_events
+            tableName: recommendations_events
             columns:
               - column:
                   name: id
@@ -13,29 +13,26 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
                     nullable: false
-
               - column:
                   name: user_id
                   type: BIGINT
                   constraints:
                     nullable: false
-
               - column:
                   name: category_id
                   type: BIGINT
                   constraints:
                     nullable: false
-
+              - column:
+                  name: product_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
               - column:
                   name: source_type
                   type: VARCHAR(50)
                   constraints:
                     nullable: false
-
-              - column:
-                  name: weight
-                  type: DOUBLE PRECISION
-
               - column:
                   name: created_at
                   type: TIMESTAMP

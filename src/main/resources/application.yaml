@@ -15,11 +15,7 @@ spring:
   jpa:
     open-in-view: false
     hibernate:
-      ddl-auto: update
-
-  liquibase:
-    change-log: classpath:liquibase/changelog-master.yml
-    drop-first: true
+      ddl-auto: validate
 
   redis:
     url: redis://${DB_CONNECTION_IP:localhost}:${DB_CONNECTION_PORT:6379}

@@ -1,6 +1,6 @@
 package az.ingress.service.abstraction;
 
-public interface RecommendationAggregatorService {
+public interface CategoryBasedRecommendationAggregatorService {
 
     void aggregateUser(Long userId);
 }

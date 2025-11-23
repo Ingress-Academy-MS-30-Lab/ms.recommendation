@@ -24,7 +24,7 @@
     import static javax.persistence.GenerationType.IDENTITY;
 
     @Entity
-    @Table(name = "category_based_recommendations_events")
+    @Table(name = "recommendations_events")
     @Getter
     @Setter
     @AllArgsConstructor
@@ -38,11 +38,10 @@
 
         private Long userId;
         private Long categoryId;
+        private Long productId;
 
         @Enumerated(STRING)
         private RecommendationSourceType sourceType;
-
-        private Double weight;
 
         @CreationTimestamp
         private LocalDateTime createdAt;

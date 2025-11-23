@@ -19,7 +19,7 @@ import java.util.List;
 public interface ProductClient {
 
     @GetMapping("/v1/products/category")
-    List<ProductResponseDto> getTopProductsByCategory(@RequestParam String category);
+    List<ProductResponseDto> getTopProductsByCategory(@RequestParam Long categoryId);
 
     @GetMapping("/v1/products/most-rated-products")
     List<ProductResponseDto> getMostRatedProducts();

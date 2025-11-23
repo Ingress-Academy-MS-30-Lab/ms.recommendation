@@ -13,6 +13,6 @@ import java.time.LocalDateTime;
 public class RecommendationQueueDto {
     private Long userId;
     private Long categoryId;
+    private Long productId;
     private RecommendationSourceType sourceType;
-    private LocalDateTime createdAt;
 }

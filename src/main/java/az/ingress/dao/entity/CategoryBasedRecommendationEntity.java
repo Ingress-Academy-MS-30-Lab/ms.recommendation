@@ -1,6 +1,5 @@
 package az.ingress.dao.entity;
 
-import az.ingress.model.enums.RecommendationSourceType;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,16 +13,14 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Getter
@@ -31,17 +28,25 @@ import static javax.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "category_based_recommendations")
+@Table(
+        name = "category_based_recommendations",
+        uniqueConstraints = @UniqueConstraint(
+                name = "uq_user_category",
+                columnNames = {"user_id", "category_id"}
+        )
+)
 @Builder
-@TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
-public class RecommendationEntity {
+public class CategoryBasedRecommendationEntity {
 
     @Id
+    @GeneratedValue(strategy = IDENTITY)
+    private Long id;
+
     private Long userId;
 
-    @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb")
-    private String categoryWeights;
+    private Long categoryId;
+
+    private Double weight;
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
@@ -51,15 +56,14 @@ public class RecommendationEntity {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof RecommendationEntity that)) return false;
-        return Objects.equals(userId, that.userId);
+        if (!(o instanceof CategoryBasedRecommendationEntity that)) return false;
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(userId);
+        return Objects.hashCode(id);
     }
-
 }
 
 

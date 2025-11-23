@@ -11,6 +11,7 @@ public enum RecommendationEventMapper {
         return RecommendationEventEntity.builder()
                 .userId(queueDto.getUserId())
                 .categoryId(queueDto.getCategoryId())
+                .productId(queueDto.getProductId())
                 .sourceType(queueDto.getSourceType())
                 .build();
     }
