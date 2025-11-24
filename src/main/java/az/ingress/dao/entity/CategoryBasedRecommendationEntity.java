@@ -1,6 +1,5 @@
 package az.ingress.dao.entity;
 
-import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,7 +31,7 @@ import static javax.persistence.GenerationType.IDENTITY;
         name = "category_based_recommendations",
         uniqueConstraints = @UniqueConstraint(
                 name = "uq_user_category",
-                columnNames = {"user_id", "category_id"}
+                columnNames = {"userId", "categoryId"}
         )
 )
 @Builder

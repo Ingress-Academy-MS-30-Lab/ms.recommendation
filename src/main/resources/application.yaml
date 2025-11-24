@@ -17,6 +17,9 @@ spring:
     hibernate:
       ddl-auto: validate
 
+  liquibase:
+    change-log: classpath:liquibase/changelog-master.yml
+
   redis:
     url: redis://${DB_CONNECTION_IP:localhost}:${DB_CONNECTION_PORT:6379}
 

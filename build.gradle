@@ -35,6 +35,9 @@ dependencies {
     //swagger
     implementation "org.springdoc:springdoc-openapi-ui:$openApiVersion"
 
+    //liquibase
+    implementation 'org.liquibase:liquibase-core'
+
     //aop
     implementation 'org.springframework.boot:spring-boot-starter-aop'
 
