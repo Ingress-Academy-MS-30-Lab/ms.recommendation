@@ -1,0 +1,35 @@
+services:
+
+  postgres:
+    image: postgres:latest
+    container_name: recommendation_db
+    restart: always
+    environment:
+      POSTGRES_DB: recommendation
+      POSTGRES_USER: recommendation
+      POSTGRES_PASSWORD: recommendation
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:latest
+    container_name: recommendation_redis
+    restart: always
+    ports:
+      - "6379:6379"
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: recommendation_rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASSWORD: guest
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+
+
+
+
+

@@ -5,6 +5,7 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED;
 
 import az.ingress.logger.ApplicationLogger;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -27,4 +28,12 @@ public class ErrorHandler {
         log.error("HttpRequestMethodNotSupportedException: ", ex);
         return new ErrorResponse(ex.getMessage());
     }
+
+    @ExceptionHandler(CustomFeignException.class)
+    public ResponseEntity<ErrorResponse> handle(CustomFeignException ex) {
+        log.error("CustomFeignException: ", ex);
+        return ResponseEntity.status(ex.getStatus())
+                .body(new ErrorResponse(ex.getMessage()));
+    }
+
 }

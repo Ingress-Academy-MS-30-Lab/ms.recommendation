@@ -1,2 +1,51 @@
 server:
   port: 8080
+
+spring:
+  application:
+    name: "ms.recommendation"
+
+  datasource:
+    url: jdbc:postgresql://${DB_CONNECTION_IP:localhost}:${DB_CONNECTION_PORT:5432}/${DB_NAME:recommendation}
+    username: ${DB_USERNAME:recommendation}
+    password: ${DB_PASSWORD:recommendation}
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+
+  liquibase:
+    change-log: classpath:liquibase/changelog-master.yml
+
+  redis:
+    url: redis://${REDIS_CONNECTION_IP:localhost}:${REDIS_CONNECTION_PORT:6379}
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    password: guest
+    username: guest
+    listener:
+      simple:
+        retry:
+          enabled: true
+          initial-interval: 3s
+          max-attempts: 5
+          max-interval: 5s
+          multiplier: 1
+        missing-queues-fatal: false
+
+rabbitmq:
+  publisher-service:
+    queue: RECOMMENDATION_Q
+    dlq: RECOMMENDATION_DLQ
+
+scheduler:
+  cron: 0 0 1 * * *
+
+
+
+client:
+  urls:
+    ms-product: http://${MS_PRODUCTS_HOST:localhost}:${MS_PRODUCTS_PORT:8081}

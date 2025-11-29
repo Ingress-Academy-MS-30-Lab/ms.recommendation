@@ -1,0 +1,174 @@
+{
+  "info": {
+    "_postman_id": "2371ce92-2f3e-4c37-99f0-9ae5fa52428c",
+    "name": "OpenAPI definition Copy",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "42451635"
+  },
+  "item": [
+    {
+      "name": "v1",
+      "item": [
+        {
+          "name": "recommendations",
+          "item": [
+            {
+              "name": "by-category",
+              "item": [
+                {
+                  "name": "get Recommendation Products",
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "User-Id",
+                        "value": "5981"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/recommendations/by-category",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "recommendations",
+                        "by-category"
+                      ]
+                    }
+                  },
+                  "response": [
+                    {
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "User-Id",
+                            "value": "5981"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/recommendations/by-category",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "recommendations",
+                            "by-category"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "[\n  {\n    \"productId\": 2971\n  },\n  {\n    \"productId\": 6446\n  }\n]"
+                    },
+                    {
+                      "name": "Method Not Allowed",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "User-Id",
+                            "value": "5981"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/recommendations/by-category",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "recommendations",
+                            "by-category"
+                          ]
+                        }
+                      },
+                      "status": "Method Not Allowed",
+                      "code": 405,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"message\": \"string\"\n}"
+                    },
+                    {
+                      "name": "Internal Server Error",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "User-Id",
+                            "value": "5981"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/recommendations/by-category",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "recommendations",
+                            "by-category"
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"message\": \"string\"\n}"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    }
+  ]
+}
