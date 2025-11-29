@@ -26,7 +26,7 @@ public class RecommendationCacheService {
         try {
             return cacheUtil.getBucket(key);
         } catch (Exception e) {
-            log.warn("ActionLog.getCachedRecommendationProductsByCategory.failed - {}", categoryId, e);
+            log.warn("ActionLog.getCachedRecommendationProductsByCategory.failed - {}", categoryId);
             return null;
         }
     }
@@ -36,7 +36,7 @@ public class RecommendationCacheService {
         try {
             cacheUtil.saveToCache(key, products, EXPIRE_TIME, HOURS);
         } catch (Exception e) {
-            log.warn("ActionLog.save failed");
+            log.warn("ActionLog.save.failed");
         }
     }
 
@@ -53,7 +53,7 @@ public class RecommendationCacheService {
         try {
             cacheUtil.saveToCache(PREFIX_CATEGORY_TOP_RATED, products, EXPIRE_TIME, HOURS);
         } catch (Exception e) {
-            log.warn("ActionLog.save failed");
+            log.warn("ActionLog.save.failed");
         }
     }
 }
