@@ -30,22 +30,22 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    DirectExchange recommendationQExchange() {
+    public DirectExchange recommendationQExchange() {
         return new DirectExchange(recommendationQExchange);
     }
 
     @Bean
-    DirectExchange recommendationDLQExchange() {
+    public DirectExchange recommendationDLQExchange() {
         return new DirectExchange(recommendationDLQExchange);
     }
 
     @Bean
-    Queue recommendationDLQ() {
+    public Queue recommendationDLQ() {
         return QueueBuilder.durable(recommendationDLQ).build();
     }
 
     @Bean
-    Queue recommendationQ() {
+    public Queue recommendationQ() {
         return QueueBuilder.durable(recommendationQ)
                 .withArgument("x-dead-letter-exchange", recommendationDLQExchange)
                 .withArgument("x-dead-letter-routing-key", recommendationDLQKey)
@@ -53,14 +53,14 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    Binding recommendationDLQBinding() {
+    public Binding recommendationDLQBinding() {
         return BindingBuilder.bind(recommendationDLQ())
                 .to(recommendationDLQExchange())
                 .with(recommendationDLQKey);
     }
 
     @Bean
-    Binding recommendationQBinding() {
+    public Binding recommendationQBinding() {
         return BindingBuilder.bind(recommendationQ())
                 .to(recommendationQExchange())
                 .with(recommendationQKey);

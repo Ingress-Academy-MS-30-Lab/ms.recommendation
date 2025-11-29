@@ -5,14 +5,15 @@ import az.ingress.service.abstraction.CategoryBasedRecommendationService;
 import az.ingress.service.abstraction.CategoryBasedRecommendationAggregatorService;
 import az.ingress.service.abstraction.RecommendationEventService;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
 import static az.ingress.model.mapper.CategoryBasedRecommendationMapper.CATEGORY_BASED_RECOMMENDATION_MAPPER;
-import static az.ingress.service.strategy.RecommendationWeights.applyDecay;
+import static az.ingress.service.strategy.RecommendationWeights.applyReducing;
+import static java.math.BigDecimal.ZERO;
 
 @Service
 @RequiredArgsConstructor
@@ -23,31 +24,26 @@ public class CategoryBasedRecommendationAggregatorServiceImpl implements Categor
     private final CategoryBasedRecommendationService categoryBasedRecommendationService;
 
     @Override
-    @SneakyThrows
-    public void aggregateUser(Long userId) {
-        var events = recommendationEventService.findAllByUserId(userId);
+    public void createOrUpdateUserDetails(Long userId, Long categoryId) {
+        var events = recommendationEventService.findAllByUserIdAndCategoryId(userId, categoryId);
         if (events.isEmpty()) return;
 
-        Map<Long, Double> newWeights = new HashMap<>();
+        var newWeight = ZERO;
 
         for (var event : events) {
-            var decayed = applyDecay(event.getSourceType().getWeight(), event.getCreatedAt());
-            newWeights.merge(event.getCategoryId(), decayed, Double::sum);
+            var reducedWeight = applyReducing(event.getSourceType().getWeight(), event.getCreatedAt());
+            newWeight = newWeight.add(reducedWeight);
         }
+        var existing = categoryBasedRecommendationService.
+                findByUserIdAndCategoryId(userId, categoryId).orElse(null);
 
-        newWeights.forEach((categoryId, newWeight) -> {
-            var existing = categoryBasedRecommendationService.
-                    findByUserIdAndCategoryId(userId, categoryId)
-                    .orElse(null);
-
-            if (existing == null) {
-                var entity = CATEGORY_BASED_RECOMMENDATION_MAPPER
-                        .buildEntity(userId, categoryId, newWeight);
-                categoryBasedRecommendationService.save(entity);
-            } else {
-                existing.setWeight(newWeight);
-                categoryBasedRecommendationService.save(existing);
-            }
-        });
+        if (existing == null) {
+            var entity = CATEGORY_BASED_RECOMMENDATION_MAPPER
+                    .buildEntity(userId, categoryId, newWeight);
+            categoryBasedRecommendationService.save(entity);
+        } else {
+            existing.setWeight(newWeight);
+            categoryBasedRecommendationService.save(existing);
+        }
     }
 }

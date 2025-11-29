@@ -8,11 +8,9 @@ import java.util.Optional;
 
 public interface CategoryBasedRecommendationService {
 
-    List<ProductResponseDto> getRecommendationProducts(Long userId);
+    List<ProductResponseDto> getRecommendedProducts(Long userId);
 
     Optional<CategoryBasedRecommendationEntity> findByUserIdAndCategoryId(Long userId, Long categoryId);
 
     void save(CategoryBasedRecommendationEntity categoryBasedRecommendationEntity);
-
-//    void refreshRecommendationProducts();
 }

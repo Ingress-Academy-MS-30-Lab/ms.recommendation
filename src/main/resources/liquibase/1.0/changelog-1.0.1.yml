@@ -30,7 +30,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: source_type
-                  type: VARCHAR(50)
+                  type: VARCHAR(64)
                   constraints:
                     nullable: false
               - column:

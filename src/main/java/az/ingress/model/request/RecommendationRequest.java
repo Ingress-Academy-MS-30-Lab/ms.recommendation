@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RecommendationRequest {
-    private Long userId;;
+    private Long userId;
     private String categoryWeights;
 }

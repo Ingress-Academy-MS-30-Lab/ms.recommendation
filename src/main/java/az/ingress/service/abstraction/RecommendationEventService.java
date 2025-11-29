@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface RecommendationEventService {
 
-    List<RecommendationEventEntity> findAllByUserId(Long userId);
+    List<RecommendationEventEntity> findAllByUserIdAndCategoryId(Long userId, Long categoryId);
 
     void save(RecommendationEventEntity recommendationEvent);
 

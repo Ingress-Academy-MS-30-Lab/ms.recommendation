@@ -8,7 +8,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: name
-                  type: VARCHAR(255)
+                  type: VARCHAR(256)
                   constraints:
                     primaryKey: true
                     nullable: false
@@ -20,4 +20,4 @@ databaseChangeLog:
                   type: TIMESTAMP
               - column:
                   name: locked_by
-                  type: VARCHAR(255)
+                  type: VARCHAR(256)

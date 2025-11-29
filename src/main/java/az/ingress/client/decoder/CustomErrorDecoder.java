@@ -27,14 +27,14 @@ public class CustomErrorDecoder implements ErrorDecoder {
 
         log.error("ActionLog.decode.error from url {} with statusCode {} ", response.request().url(), statusCode);
 
-        try(var body = response.body().asInputStream()){
+        try (var body = response.body().asInputStream()) {
             var jsonNode = objectMapper.readValue(body, JsonNode.class);
 
             if (jsonNode.has(MESSAGE.getValue()))
                 errorMessage = jsonNode.get(MESSAGE.getValue()).asText();
 
             throw new CustomFeignException(errorMessage, statusCode);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             log.error("ActionLog.decoder.error ", ex);
             throw new CustomFeignException(errorMessage, statusCode);
         }

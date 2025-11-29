@@ -13,12 +13,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
-import static java.util.Collections.emptyMap;
 import static java.util.Comparator.comparing;
 
 @Service
@@ -32,7 +29,7 @@ public class CategoryBasedRecommendationServiceImpl implements CategoryBasedReco
 
 
     @Override
-    public List<ProductResponseDto> getRecommendationProducts(Long userId) {
+    public List<ProductResponseDto> getRecommendedProducts(Long userId) {
 
         var entity = categoryBasedRecommendationRepository.findAllByUserId(userId);
 
@@ -40,7 +37,7 @@ public class CategoryBasedRecommendationServiceImpl implements CategoryBasedReco
             var cachedTopRatedProducts = recommendationCacheService.getCachedRecommendationTopRatedProducts();
             if (cachedTopRatedProducts != null) return cachedTopRatedProducts;
 
-            var topRatedProducts = productClient.getMostRatedProducts();
+            var topRatedProducts = productClient.getTopProductsByCategory(null);
             recommendationCacheService.save(topRatedProducts);
             return topRatedProducts;
         }
@@ -50,7 +47,14 @@ public class CategoryBasedRecommendationServiceImpl implements CategoryBasedReco
                 .map(CategoryBasedRecommendationEntity::getCategoryId)
                 .orElse(null);
 
-        if (bestCategory == null) return productClient.getMostRatedProducts();
+        if (bestCategory == null) {
+            var cachedTopRatedProducts = recommendationCacheService.getCachedRecommendationTopRatedProducts();
+            if (cachedTopRatedProducts != null) return cachedTopRatedProducts;
+
+            var topRatedProducts = productClient.getTopProductsByCategory(null);
+            recommendationCacheService.save(topRatedProducts);
+            return topRatedProducts;
+        }
 
         var cached = recommendationCacheService.getCachedRecommendationProductsByCategory(bestCategory);
         if (cached != null) return cached;

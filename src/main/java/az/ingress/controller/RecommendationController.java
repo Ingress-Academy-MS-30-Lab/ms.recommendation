@@ -13,14 +13,14 @@ import java.util.List;
 import static az.ingress.model.constants.HeaderConstants.USER_ID;
 
 @RestController
-@RequestMapping("/v1/recommendations")
+@RequestMapping("/v1/product-recommendations")
 @RequiredArgsConstructor
 public class RecommendationController {
 
     private final CategoryBasedRecommendationService categoryBasedRecommendationService;
 
-    @GetMapping("/by-category")
-    public List<ProductResponseDto> getRecommendationProducts(@RequestHeader(USER_ID) Long userId) {
-        return categoryBasedRecommendationService.getRecommendationProducts(userId);
+    @GetMapping
+    public List<ProductResponseDto> getRecommendedProducts(@RequestHeader(USER_ID) Long userId) {
+        return categoryBasedRecommendationService.getRecommendedProducts(userId);
     }
 }

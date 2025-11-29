@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface RecommendationEventRepository extends CrudRepository<RecommendationEventEntity, Long> {
 
-    List<RecommendationEventEntity> findAllByUserId(Long userId);
+    List<RecommendationEventEntity> findAllByUserIdAndCategoryId(Long userId, Long categoryId);
 
     @Transactional
     @Modifying

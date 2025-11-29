@@ -2,12 +2,15 @@ package az.ingress.service.concrete;
 
 import az.ingress.dao.entity.RecommendationEventEntity;
 import az.ingress.dao.repository.RecommendationEventRepository;
+import az.ingress.model.constants.RecommendationConstants;
 import az.ingress.service.abstraction.RecommendationEventService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static az.ingress.model.constants.RecommendationConstants.TIME_RANGE;
 
 @Service
 @RequiredArgsConstructor
@@ -17,8 +20,8 @@ public class RecommendationEventServiceImpl implements RecommendationEventServic
     private final RecommendationEventRepository recommendationEventRepository;
 
     @Override
-    public List<RecommendationEventEntity> findAllByUserId(Long userId) {
-        return recommendationEventRepository.findAllByUserId(userId);
+    public List<RecommendationEventEntity> findAllByUserIdAndCategoryId(Long userId, Long categoryId) {
+        return recommendationEventRepository.findAllByUserIdAndCategoryId(userId, categoryId);
     }
 
     @Override
@@ -28,9 +31,7 @@ public class RecommendationEventServiceImpl implements RecommendationEventServic
 
     @Override
     public void cleanupOldEvents() {
-        var timeHold = LocalDateTime.now().minusDays(60);
+        var timeHold = LocalDateTime.now().minusDays(TIME_RANGE);
         recommendationEventRepository.deleteOlderThan(timeHold);
     }
-
-
 }

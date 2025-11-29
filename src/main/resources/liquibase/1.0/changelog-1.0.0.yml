@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: create-category_based_recommendations-table
+      id: create_category_based_recommendations_table
       author: muradbakhishli
       changes:
         - createTable:
@@ -25,7 +25,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: weight
-                  type: DOUBLE PRECISION
+                  type: NUMERIC(4,2)
                   constraints:
                     nullable: false
               - column:
@@ -36,3 +36,7 @@ databaseChangeLog:
                   name: created_at
                   type: TIMESTAMP
                   defaultValueComputed: now()
+        - addUniqueConstraint:
+            tableName: category_based_recommendations
+            columnNames: user_id, category_id
+            constraintName: uq_user_category

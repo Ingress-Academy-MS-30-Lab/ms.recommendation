@@ -17,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -27,13 +28,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(
-        name = "category_based_recommendations",
-        uniqueConstraints = @UniqueConstraint(
-                name = "uq_user_category",
-                columnNames = {"userId", "categoryId"}
-        )
-)
+@Table(name = "category_based_recommendations")
 @Builder
 public class CategoryBasedRecommendationEntity {
 
@@ -45,7 +40,7 @@ public class CategoryBasedRecommendationEntity {
 
     private Long categoryId;
 
-    private Double weight;
+    private BigDecimal weight;
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;

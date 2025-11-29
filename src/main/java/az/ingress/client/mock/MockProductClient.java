@@ -27,20 +27,4 @@ public class MockProductClient implements ProductClient {
                 new ProductResponseDto(10L)
         );
     }
-
-    @Override
-    public List<ProductResponseDto> getMostRatedProducts() {
-        return List.of(
-                new ProductResponseDto(11L),
-                new ProductResponseDto(12L),
-                new ProductResponseDto(13L),
-                new ProductResponseDto(14L),
-                new ProductResponseDto(15L),
-                new ProductResponseDto(16L),
-                new ProductResponseDto(17L),
-                new ProductResponseDto(18L),
-                new ProductResponseDto(19L),
-                new ProductResponseDto(20L)
-        );
-    }
 }

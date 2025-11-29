@@ -4,8 +4,6 @@ server:
 spring:
   application:
     name: "ms.recommendation"
-  profiles:
-    active: local
 
   datasource:
     url: jdbc:postgresql://${DB_CONNECTION_IP:localhost}:${DB_CONNECTION_PORT:5432}/${DB_NAME:recommendation}
@@ -21,7 +19,7 @@ spring:
     change-log: classpath:liquibase/changelog-master.yml
 
   redis:
-    url: redis://${DB_CONNECTION_IP:localhost}:${DB_CONNECTION_PORT:6379}
+    url: redis://${REDIS_CONNECTION_IP:localhost}:${REDIS_CONNECTION_PORT:6379}
 
   rabbitmq:
     host: localhost
@@ -43,7 +41,11 @@ rabbitmq:
     queue: RECOMMENDATION_Q
     dlq: RECOMMENDATION_DLQ
 
+scheduler:
+  cron: 0 0 1 * * *
+
+
 
 client:
   urls:
-    ms-product: http://${DB_CONNECTION_IP:localhost}:${DB_CONNECTION_PORT:8081}
+    ms-product: http://${MS_PRODUCTS_HOST:localhost}:${MS_PRODUCTS_PORT:8081}
